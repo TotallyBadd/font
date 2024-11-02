@@ -1,1 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enhanced Font & Color Generator</title>
+    
+    <!-- Google Fonts for variety -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;400;700&family=Playfair+Display&family=Montserrat&display=swap" rel="stylesheet">
+    
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f0f4f8;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 16px;
+        }
+        h1 {
+            margin-top: 20px;
+            font-size: 2rem;
+            color: #3a3a3a;
+        }
+        .container {
+            max-width: 800px;
+            width: 100%;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .section {
+            margin-top: 30px;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            background-color: #ffffff;
+        }
+        #font-generator .input-area {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        #font-generator input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            font-size: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .font-options {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            gap: 15px;
+        }
+        .font-sample {
+            padding: 15px;
+            text-align: center;
+            width: 100%;
+            max-width: 150px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+            font-size: 1.2rem;
+        }
+        .font-sample:hover {
+            background-color: #f5f5f5;
+        }
+        #color-picker {
+            text-align: center;
+        }
+        #color-picker input[type="color"] {
+            margin-top: 15px;
+            padding: 10px;
+            cursor: pointer;
+        }
+        #color-box {
+            margin-top: 20px;
+            height: 100px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            color: #ffffff;
+        }
+    </style>
+</head>
+<body>
 
+    <h1>Enhanced Font & Color Generator</h1>
+    <div class="container">
+        <!-- Font Generator Section -->
+        <div id="font-generator" class="section">
+            <h2>Font Generator</h2>
+            <div class="input-area">
+                <label for="font-input">Enter Text:</label>
+                <input type="text" id="font-input" placeholder="Type something...">
+            </div>
+            <div id="font-output" class="font-options">
+                <!-- Font styles will display here -->
+            </div>
+        </div>
+
+        <!-- Color Picker Section -->
+        <div id="color-picker" class="section">
+            <h2>Color Picker</h2>
+            <p>Choose a color:</p>
+            <input type="color" id="color-input">
+            <div id="color-box">#FFFFFF</div>
+        </div>
+    </div>
+
+    <script>
+        const fontInput = document.getElementById('font-input');
+        const fontOutput = document.getElementById('font-output');
+        
+        const fontStyles = [
+            { fontFamily: 'Arial', text: 'Arial' },
+            { fontFamily: 'Courier New', text: 'Courier New', fontWeight: 'bold' },
+            { fontFamily: 'Georgia', text: 'Georgia', fontStyle: 'italic' },
+            { fontFamily: 'Times New Roman', text: 'Small Caps', fontVariant: 'small-caps' },
+            { fontFamily: 'Roboto', text: 'Roboto Light', fontWeight: '100' },
+            { fontFamily: 'Playfair Display', text: 'Playfair Display', fontStyle: 'italic' },
+            { fontFamily: 'Montserrat', text: 'Montserrat Bold', fontWeight: '700' },
+            { fontFamily: 'Verdana', text: 'Verdana Bold', fontWeight: 'bold' },
+            { fontFamily: 'Fantasy', text: 'Fantasy' },
+            { fontFamily: 'Monospace', text: 'Monospace' },
+        ];
+
+        fontStyles.forEach(style => {
+            const div = document.createElement('div');
+            div.className = 'font-sample';
+            div.style.fontFamily = style.fontFamily;
+            div.style.fontWeight = style.fontWeight || 'normal';
+            div.style.fontStyle = style.fontStyle || 'normal';
+            div.style.fontVariant = style.fontVariant || 'normal';
+            div.textContent = style.text;
+            fontOutput.appendChild(div);
+
+            div.addEventListener('click', () => {
+                navigator.clipboard.writeText(fontInput.value).then(() => {
+                    alert(`Copied text in ${style.text} style!`);
+                });
+            });
+        });
+
+        fontInput.addEventListener('input', () => {
+            document.querySelectorAll('.font-sample').forEach((div, index) => {
+                div.textContent = fontInput.value;
+            });
+        });
+
+        const colorInput = document.getElementById('color-input');
+        const colorBox = document.getElementById('color-box');
+
+        colorInput.addEventListener('input', () => {
+            const color = colorInput.value;
+            colorBox.style.backgroundColor = color;
+            colorBox.textContent = color.toUpperCase();
+        });
+    </script>
+
+</body>
+</html>
